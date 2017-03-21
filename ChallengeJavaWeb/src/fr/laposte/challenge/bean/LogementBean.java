@@ -1,7 +1,5 @@
 package fr.laposte.challenge.bean;
 
-import java.util.List;
-
 public class LogementBean {
 	
 	private int id;
