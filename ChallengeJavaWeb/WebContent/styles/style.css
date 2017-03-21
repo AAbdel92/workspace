@@ -1,0 +1,56 @@
+body {
+	color: #1F1F1F;
+	background-color : #f4f4f4;
+}
+
+	
+
+	header {
+		height: 30vh;
+		background-color: red;
+	}
+
+	.header {
+		height: 100%;
+		display: flex;
+		justify-content: center;
+	}
+
+	header a, header a:hover, header a:active, header a:visited {
+		text-decoration: none;
+		font-size: 3em;
+		color: black;
+		display: flex;
+		align-self: center;
+		justify-content: center;		
+	}
+	
+	footer {
+		margin-top: 2vh;
+		background-color: red;
+	}
+	
+	main {
+		margin-top: 2vh;
+	}
+	
+		main p {
+			text-align: justify;
+		}
+		
+		.confirmation {
+			text-align: center;
+			font-size: 2.25em;
+		}
+		form {
+			margin-bottom: 2vh;
+		}
+		
+			input:invalid, textarea:invalid {
+			border-color: #c56868;
+		}
+			input:valid, textarea:valid {
+			border-color: #37c12f;
+		}
+
+
