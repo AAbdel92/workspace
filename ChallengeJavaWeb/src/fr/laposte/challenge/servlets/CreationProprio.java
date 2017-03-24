@@ -10,8 +10,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
+
 import fr.laposte.challenge.bean.ProprietaireBean;
 import fr.laposte.challenge.daos.ProprietaireDAO;
+import fr.laposte.challenge.validation.Validation;
 
 /**
  * Servlet implementation class IndexServlet
@@ -42,7 +45,9 @@ public class CreationProprio extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-				
+			if (Validation.checkNom(request.getParameter("inputNom"))
+					&& Validation.checkPrenom(request.getParameter("inputPrenom")) 
+					&& Validation.checkTel(request.getParameter("inputTel"))) {	
 		ProprietaireBean proprio = new ProprietaireBean();
 			proprio.setNom(request.getParameter("inputNom"));
 			proprio.setPrenom(request.getParameter("inputPrenom"));
@@ -52,10 +57,17 @@ public class CreationProprio extends HttpServlet {
 			proprioDAO.ouvrirConnexion();
 			proprioDAO.insererProprio();
 			proprioDAO.fermerConnexion();
-		
+		String confirmation = "Propriétaire crée !";
 		String display = "show";
-			request.setAttribute("display", display);
-		
+		request.setAttribute("confirmation", confirmation);
+		request.setAttribute("display", display);
+			} else {
+				String confirmation = "Format des champs non respecté !";
+				String display = "show";
+				request.setAttribute("confirmation", confirmation);
+				request.setAttribute("display", display);
+			}			
+			
 		RequestDispatcher dispatcher;
 			dispatcher = request.getRequestDispatcher("creationProprio.jsp");
 			dispatcher.forward(request, response);

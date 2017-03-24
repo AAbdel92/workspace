@@ -39,7 +39,7 @@
 			</div>
 			<div class="col-md-12 text-center ${display}">
 				<p class="confirmation">					
-					Propriétaire crée !								
+					${confirmation}							
 				</p>
 			</div>		
 	</main>

@@ -80,9 +80,7 @@ public class Recherche extends HttpServlet {
 			request.setAttribute("display", show);
 
 			dispatcher = request.getRequestDispatcher("index.jsp");
-		}
-		
-		
+		}	
 		dispatcher.forward(request, response);		
 		
 	}
