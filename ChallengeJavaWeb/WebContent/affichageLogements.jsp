@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -17,8 +18,10 @@
 			<div class="form-group">
 				<label class="control-label col-md-offset-3 col-md-2">Propriétaire : </label>
 				<div class="col-md-4">
-					<select  class="form-control" name="inputProprio">
-						${ resultat }
+					<select  class="form-control" name="inputProprio">						
+						<c:forEach items="${resultat}" var="proprio">
+						<option value="${proprio.id}">${proprio.nom} ${proprio.prenom}</option>
+					</c:forEach>
 					</select>	
 				</div>		
 			</div>
@@ -34,7 +37,9 @@
 				<label class="control-label col-md-offset-3 col-md-2">Logement(s) : </label>
 				<div class="col-md-4">
 					<select class="form-control" name="inputLogement">
-						${logements}
+						<c:forEach items="${logements}" var="appart">
+							<option value="${appart.id}">${appart.adresse.toString()}</option>
+						</c:forEach>
 					</select>
 				</div>
 			</div>

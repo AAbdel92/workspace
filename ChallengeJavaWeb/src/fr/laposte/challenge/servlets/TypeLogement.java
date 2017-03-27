@@ -10,17 +10,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class SimplonAirBnB
+ * Servlet implementation class TypeLogement
  */
-@WebServlet("/SimplonAirBnB")
-public class SimplonAirBnB extends HttpServlet {
+@WebServlet("/TypeLogement")
+public class TypeLogement extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SimplonAirBnB() {
+    public TypeLogement() {
         super();
+
     }
 
 	/**
@@ -28,12 +29,9 @@ public class SimplonAirBnB extends HttpServlet {
 	 */
     @Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		String display = "hidden";
-		request.setAttribute("display", display);
+    	
 		RequestDispatcher dispatcher;
-		
-		dispatcher = request.getRequestDispatcher("index.jsp");
+		dispatcher = request.getRequestDispatcher("typeLogement.jsp");		
 		dispatcher.forward(request, response);
 	}
 
@@ -42,7 +40,7 @@ public class SimplonAirBnB extends HttpServlet {
 	 */
     @Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+
 		doGet(request, response);
 	}
 

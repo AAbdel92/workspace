@@ -1,7 +1,6 @@
 package fr.laposte.challenge.daos;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import fr.laposte.challenge.bean.DisponibiliteBean;
@@ -42,16 +41,19 @@ public class DisponibiliteDAO extends DAO {
 //	}
 	
 	public void insererDispo() {
+		ouvrirConnexion();
 		this.requeteSql = "INSERT INTO `disponibilites` (`dateDebut`, `dateFin`, `logement_id`)" + 
 							"VALUES ('" + this.dispo.getDateDebut() + 
 							"', '" + this.dispo.getDateFin() + 
 							"', " + this.dispo.getAppart().getId() + 
 							")";
 		try {
-			statement.executeUpdate(requeteSql);			
+			statement = connexion.prepareStatement(requeteSql);
+			statement.executeUpdate();			
 		} catch (SQLException e) {
 			e.printStackTrace();		
 		}		
+		fermerConnexion();
 	}
 	
 	public DisponibiliteBean getDispo() {

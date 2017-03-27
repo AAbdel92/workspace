@@ -8,6 +8,9 @@ public abstract class Validation {
 	private static Pattern pattern;
 	private static Matcher matcher;
 	
+	private Validation() {		
+	}	
+	
 	public static boolean checkNom(String nom) {	
 		
 		 regex = "^[A-Z][a-z]+(-[A-Z][a-z]*|\\s[A-Z][a-z]*|)[a-z]*";

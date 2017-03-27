@@ -33,6 +33,7 @@ public class CreationProprio extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+    @Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String display = "hidden";
 		request.setAttribute("display", display);
@@ -44,6 +45,7 @@ public class CreationProprio extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+    @Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			if (Validation.checkNom(request.getParameter("inputNom"))
 					&& Validation.checkPrenom(request.getParameter("inputPrenom")) 

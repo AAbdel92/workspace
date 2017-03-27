@@ -20,24 +20,27 @@ public class ProprietaireDAO extends DAO{
 	}
 	
 	public void insererProprio() {
-		
+		ouvrirConnexion();		
 		requeteSql = "INSERT INTO `proprietaire` (`nom`,`prenom`, `tel`) VALUES " + 
 					"('"+ this.proprio.getNom() + "', '" + this.proprio.getPrenom() + 
 					"', '" + this.proprio.getTel() + "')";
 		
 		try {
-			statement.executeUpdate(requeteSql);			
+			statement = connexion.prepareStatement(requeteSql);
+			statement.executeUpdate();			
 		} catch (SQLException e) {
 			e.printStackTrace();		
 		}
+		fermerConnexion();
 	}
 	
 	public void selectProprios() {		
-		
+		ouvrirConnexion();				
 		this.listeProprio = new ArrayList<>();
 		requeteSql = "SELECT * FROM `proprietaire`";
 		try {
-			resultat = statement.executeQuery(requeteSql);
+			statement = connexion.prepareStatement(requeteSql);
+			resultat = statement.executeQuery();
 			while (resultat.next()) {						
 				this.listeProprio.add(new ProprietaireBean(
 						this.resultat.getInt("id"),
@@ -49,14 +52,16 @@ public class ProprietaireDAO extends DAO{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		fermerConnexion();
 	}
 	
 	public void selectProprio(int id) {
-		
+		ouvrirConnexion();		
 		this.proprio = new ProprietaireBean();
 		requeteSql = "SELECT * FROM `proprietaire` WHERE `id` LIKE " + id ;
 		try {
-			resultat = statement.executeQuery(requeteSql);
+			statement = connexion.prepareStatement(requeteSql);
+			resultat = statement.executeQuery();
 			while (resultat.next()) {						
 				this.proprio.setId(resultat.getInt("id"));
 				this.proprio.setNom(resultat.getString("nom"));
@@ -66,7 +71,7 @@ public class ProprietaireDAO extends DAO{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+		fermerConnexion();		
 	}
 
 	public ProprietaireBean getProprio() {

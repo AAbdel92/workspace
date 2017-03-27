@@ -27,17 +27,24 @@ public class CreationLogement extends HttpServlet {
      */
     public CreationLogement() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+    @Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String display = "hidden";
+		
+		ProprietaireDAO proprioDAO = new ProprietaireDAO();
+		
+	
+		proprioDAO.selectProprios();
+	
+		
 		request.setAttribute("display", display);
-		request.setAttribute("resultat", afficherListeProprio());
+		request.setAttribute("resultat", proprioDAO.getListeProprio());
 		RequestDispatcher dispatcher;
 		dispatcher = request.getRequestDispatcher("creationLogement.jsp");
 		dispatcher.forward(request, response);
@@ -46,6 +53,7 @@ public class CreationLogement extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+    @Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		AdresseBean adresse = new AdresseBean();
 			adresse.setVoie(request.getParameter("inputVoie"));
@@ -54,14 +62,14 @@ public class CreationLogement extends HttpServlet {
 			adresse.setVille(request.getParameter("inputVille"));
 		
 		AdresseDAO adresseDAO = new AdresseDAO(adresse);
-			adresseDAO.ouvrirConnexion();
+		
 			adresseDAO.insererAdresse();
-			adresseDAO.fermerConnexion();
+		
 			
 		ProprietaireDAO proprioDAO = new ProprietaireDAO();
-			proprioDAO.ouvrirConnexion();
+	
 			proprioDAO.selectProprio(Integer.parseInt(request.getParameter("inputProprio")));
-			proprioDAO.fermerConnexion();		
+			
 		
 		LogementBean appart = new LogementBean(adresse);
 			appart.setDescription(request.getParameter("inputDescription"));
@@ -69,40 +77,40 @@ public class CreationLogement extends HttpServlet {
 			appart.setProprio(proprioDAO.getProprio());
 			
 		LogementDAO appartDAO = new LogementDAO(appart);
-			appartDAO.ouvrirConnexion();
+		
 			appartDAO.insererAppart();
-			appartDAO.fermerConnexion();
+		
 			
 		
 		String display = "show";		
 			request.setAttribute("display", display);
-			request.setAttribute("resultat", afficherListeProprio());
+			request.setAttribute("resultat", proprioDAO.getListeProprio());
 		
 		RequestDispatcher dispatcher;
 			dispatcher = request.getRequestDispatcher("creationLogement.jsp");
 			dispatcher.forward(request, response);		
 	}
 	
-	protected String afficherListeProprio() {
-		String resultat = "";
-		
-		ProprietaireDAO proprioDAO = new ProprietaireDAO();
-		
-		proprioDAO.ouvrirConnexion();
-		proprioDAO.selectProprios();
-		
-		for (int i = 0; i < proprioDAO.getListeProprio().size(); i++) {
-			
-			resultat += "<option value=\"" + 
-						proprioDAO.getListeProprio().get(i).getId() + 
-						"\">" + 
-						proprioDAO.getListeProprio().get(i).getNom() + 
-						" " + 
-						proprioDAO.getListeProprio().get(i).getPrenom();
-			
-		}
-		proprioDAO.fermerConnexion();
-		return resultat;
-		
-	}
+//	protected String afficherListeProprio() {
+//		String resultat = "";
+//		
+//		ProprietaireDAO proprioDAO = new ProprietaireDAO();
+//		
+//	
+//		proprioDAO.selectProprios();
+//		
+//		for (int i = 0; i < proprioDAO.getListeProprio().size(); i++) {
+//			
+//			resultat += "<option value=\"" + 
+//						proprioDAO.getListeProprio().get(i).getId() + 
+//						"\">" + 
+//						proprioDAO.getListeProprio().get(i).getNom() + 
+//						" " + 
+//						proprioDAO.getListeProprio().get(i).getPrenom();
+//			
+//		}
+//		proprioDAO.fermerConnexion();
+//		return resultat;
+//		
+//	}
 }

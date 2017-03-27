@@ -33,13 +33,19 @@ public class AffichageLogements extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+    @Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 						
 		request.setAttribute("proprioDisplay", hidden);
 		request.setAttribute("logementDisplay", hidden);
 		request.setAttribute("confirmationDisplay", hidden);
 		request.setAttribute("noLogementDisplay", hidden);
-		request.setAttribute("resultat", afficherListeProprio());
+		
+		ProprietaireDAO proprioDAO = new ProprietaireDAO();		
+		
+		proprioDAO.selectProprios();		
+		
+		request.setAttribute("resultat", proprioDAO.getListeProprio());
 		RequestDispatcher dispatcher;
 		dispatcher = request.getRequestDispatcher("affichageLogements.jsp");
 		dispatcher.forward(request, response);
@@ -47,45 +53,51 @@ public class AffichageLogements extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if (request.getParameter("submitProprio") != null) {
 		
 			this.appartDAO = new LogementDAO();
-				appartDAO.ouvrirConnexion();
+			
 				appartDAO.selectLogements(Integer.parseInt(request.getParameter("inputProprio")));
-				appartDAO.fermerConnexion();
+				
 			
 			this.proprioDAO = new ProprietaireDAO();
-				proprioDAO.ouvrirConnexion();
+				
 				proprioDAO.selectProprio(Integer.parseInt(request.getParameter("inputProprio")));
-				proprioDAO.fermerConnexion();
+			
 				
 			request.setAttribute("nomProprio", this.proprioDAO.getProprio().toString());
 			
-			String hasLogement = afficherListeApparts(this.appartDAO);
-				if (hasLogement != null) {				
+				if (!this.appartDAO.getListeApparts().isEmpty()) {				
 					request.setAttribute("proprioDisplay", show);
 					request.setAttribute("confirmationDisplay", hidden);
 					request.setAttribute("logementDisplay", show);
 					request.setAttribute("noLogementDisplay", hidden);
-					request.setAttribute("logements", hasLogement);
+					request.setAttribute("logements", this.appartDAO.getListeApparts());					
 				} else {
 					request.setAttribute("proprioDisplay", show);
 					request.setAttribute("confirmationDisplay", hidden);
 					request.setAttribute("logementDisplay", hidden);
 					request.setAttribute("noLogementDisplay", show);
-				}						 
+				}
+				ProprietaireDAO proprioDAO = new ProprietaireDAO();		
+				
+				proprioDAO.selectProprios();
+				request.setAttribute("resultat", proprioDAO.getListeProprio());
+				
 		} else {
-			request.setAttribute("logements", afficherListeApparts(this.appartDAO));
+			request.setAttribute("logements",  this.appartDAO.getListeApparts());
+			
 			
 			LogementDAO appartDAO = new LogementDAO();
-				appartDAO.ouvrirConnexion();
-				appartDAO.selectProprio(Integer.parseInt(request.getParameter("inputLogement")));
-				appartDAO.fermerConnexion();			
 		
-				appartDAO.ouvrirConnexion();
+				appartDAO.selectProprio(Integer.parseInt(request.getParameter("inputLogement")));
+						
+		
+			
 				appartDAO.selectLogement(Integer.parseInt(request.getParameter("inputLogement")));
-				appartDAO.fermerConnexion();	
+			
 			
 			DisponibiliteBean dispo = new DisponibiliteBean();
 				dispo.setAppart(appartDAO.getAppart());
@@ -93,58 +105,27 @@ public class AffichageLogements extends HttpServlet {
 				dispo.setDateFin(request.getParameter("inputDateFin"));				
 			
 			DisponibiliteDAO dispoDAO = new DisponibiliteDAO(dispo);
-				dispoDAO.ouvrirConnexion();
+			
 				dispoDAO.insererDispo();
-				dispoDAO.fermerConnexion();	
+			
 				
 			request.setAttribute("proprioDisplay", show);
 			request.setAttribute("confirmationDisplay", show);
 			request.setAttribute("logementDisplay", show);
 			request.setAttribute("noLogementDisplay", hidden);
 			}
-	request.setAttribute("resultat", afficherListeProprio());
+		
+
+		ProprietaireDAO proprioDAO = new ProprietaireDAO();
+		
+
+		proprioDAO.selectProprios();
+		
+		
+	request.setAttribute("resultat", proprioDAO.getListeProprio());
 	
 	RequestDispatcher dispatcher;	
 		dispatcher = request.getRequestDispatcher("affichageLogements.jsp");
 		dispatcher.forward(request, response);
-	}
-	
-	
-	protected String afficherListeProprio() {
-		StringBuilder resultat = new StringBuilder();
-		String option;		
-		ProprietaireDAO proprioDAO = new ProprietaireDAO();		
-			proprioDAO.ouvrirConnexion();
-			proprioDAO.selectProprios();
-			proprioDAO.fermerConnexion();
-		
-		for (int i = 0; i < proprioDAO.getListeProprio().size(); i++) {			
-			option = "<option value=\"" + 
-						proprioDAO.getListeProprio().get(i).getId() + 
-						"\">" + 
-						proprioDAO.getListeProprio().get(i).getNom() + 
-						" " + 
-						proprioDAO.getListeProprio().get(i).getPrenom() + 
-						"</option>";
-			resultat.append(option);			
-		}		
-		return resultat.toString();		
-	}
-	
-	protected String afficherListeApparts(LogementDAO appartDAO) {			
-		
-		if (!(appartDAO.getListeApparts().isEmpty())) {	
-			StringBuilder resultat = new StringBuilder();
-			String option;			
-			for (int i = 0; i < appartDAO.getListeApparts().size(); i++) {			
-				option = "<option value=\"" + appartDAO.getListeApparts().get(i).getId() + 
-							"\">" + appartDAO.getListeApparts().get(i).getAdresse().toString() + 
-							"</option>";
-				resultat.append(option);
-		}
-		return resultat.toString();
-		} else {
-			return null;
-		}		
-	}
+	}	
 }

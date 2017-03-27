@@ -21,7 +21,7 @@ public class LogementDAO extends DAO {
 	}
 	
 	public void insererAppart() {
-		
+		ouvrirConnexion();		
 		requeteSql = "INSERT INTO `logement` (`adresse_id`, `proprietaire_id`, `description`,`compAdresse`) VALUES " + 
 					"('" + this.appart.getAdresse().getId() + 
 					"', " + this.appart.getProprio().getId() + 
@@ -29,21 +29,24 @@ public class LogementDAO extends DAO {
 					"', '" + this.appart.getCompAdresse() + 					
 					"')";		
 		try {
-			statement.executeUpdate(requeteSql);			
+			statement = connexion.prepareStatement(requeteSql);
+			statement.executeUpdate();			
 		} catch (SQLException e) {
 			e.printStackTrace();		
 		}
+		fermerConnexion();
 	}
 	
 	public void selectLogements(int proprioId) {
-		
+		ouvrirConnexion();		
 		this.listeApparts = new ArrayList<>();
 		this.requeteSql = "SELECT logement.*, adresse.* FROM `logement` "
 				+ "JOIN `adresse` ON logement.adresse_id = adresse.id "
 				+ "JOIN `proprietaire` ON logement.proprietaire_id = proprietaire.id "
 				+ "WHERE proprietaire.id LIKE " + proprioId;
 		try {
-			this.resultat = statement.executeQuery(this.requeteSql);
+			statement = connexion.prepareStatement(requeteSql);
+			this.resultat = statement.executeQuery();
 			while (resultat.next()) {
 				this.appart = new LogementBean();
 				this.appart.setId(resultat.getInt(1));
@@ -61,17 +64,19 @@ public class LogementDAO extends DAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+		fermerConnexion();		
 	}
 	
 	public void selectProprio( int appartId) {
+		ouvrirConnexion();
 		this.appart = new LogementBean();
 		this.requeteSql = "SELECT * FROM `proprietaire` " + 
 				"JOIN `logement` " + 
 				"ON logement.proprietaire_id = proprietaire.id " + 
 				"WHERE logement.id LIKE " + appartId;
 		try {
-			this.resultat = statement.executeQuery(this.requeteSql);
+			statement = connexion.prepareStatement(requeteSql);
+			this.resultat = statement.executeQuery();
 			while (resultat.next()) {
 				this.appart.setProprio(new ProprietaireBean());
 				this.appart.getProprio().setId(resultat.getInt(1));
@@ -83,17 +88,19 @@ public class LogementDAO extends DAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		fermerConnexion();
 	}
 	
 	public void selectLogement(int appartId) {
-		
+		ouvrirConnexion();		
 		this.appart = new LogementBean();
 		this.appart.setAdresse(new AdresseBean());
 		this.requeteSql = "SELECT logement.*, adresse.* FROM `logement` "
 				+ "JOIN `adresse` ON logement.adresse_id = adresse.id "
 				+ "WHERE logement.id LIKE " + appartId;
 		try {
-			this.resultat = statement.executeQuery(this.requeteSql);
+			statement = connexion.prepareStatement(requeteSql);
+			this.resultat = statement.executeQuery();
 			while (resultat.next()) {
 				this.appart.setId(resultat.getInt(1));
 				this.appart.setDescription(resultat.getString(2));
@@ -108,11 +115,11 @@ public class LogementDAO extends DAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+		fermerConnexion();		
 	}
 	
 	public void rechercheApparts(String ville, String dateDebut, String dateFin) {
-		
+		ouvrirConnexion();		
 		this.listeApparts = new ArrayList<>();
 		
 		this.requeteSql = "SELECT logement.*, adresse.* FROM `logement` "
@@ -122,7 +129,8 @@ public class LogementDAO extends DAO {
 				+ dateDebut + "' >= disponibilites.dateDebut AND '" 
 				+ dateFin + "' <= disponibilites.dateFin";
 		try {
-			this.resultat = statement.executeQuery(this.requeteSql);
+			statement = connexion.prepareStatement(requeteSql);
+			this.resultat = statement.executeQuery();
 			while (this.resultat.next()) {
 				this.appart = new LogementBean();
 				this.appart.setId(resultat.getInt(1));
@@ -141,6 +149,7 @@ public class LogementDAO extends DAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		fermerConnexion();
 	}
 	
 	public LogementBean getAppart() {

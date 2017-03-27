@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import fr.laposte.challenge.daos.LogementDAO;
-import fr.laposte.challenge.daos.ProprietaireDAO;
 
 /**
  * Servlet implementation class Recherche
@@ -57,11 +56,11 @@ public class Recherche extends HttpServlet {
 			
 			request.setAttribute("logementsDisplay", hidden);
 			request.setAttribute("noLogementDisplay", hidden);
-			String hasLogement = this.afficherListeApparts(appartDAO);
-			if (hasLogement != null) {
+
+			if (!appartDAO.getListeApparts().isEmpty()) {
 				request.setAttribute("logementsDisplay", show);
 				request.setAttribute("noLogementDisplay", hidden);
-				request.setAttribute("logements", hasLogement);		
+				request.setAttribute("logements", appartDAO.getListeApparts());		
 			} else {
 				request.setAttribute("logementsDisplay", hidden);
 				request.setAttribute("noLogementDisplay", show);
@@ -72,34 +71,14 @@ public class Recherche extends HttpServlet {
 				appartDAO.ouvrirConnexion();
 				appartDAO.selectProprio(Integer.parseInt(request.getParameter("inputLogement")));
 				appartDAO.fermerConnexion();			
-			
-			String nomProprio = appartDAO.getAppart().getProprio().toString();
-			String telProprio = appartDAO.getAppart().getProprio().getTel();			
-			request.setAttribute("nomProprio", nomProprio);
-			request.setAttribute("telProprio", telProprio);
+
+			request.setAttribute("proprio", appartDAO.getAppart().getProprio());
 			request.setAttribute("display", show);
 
 			dispatcher = request.getRequestDispatcher("index.jsp");
 		}	
 		dispatcher.forward(request, response);		
 		
-	}
-
-	protected String afficherListeApparts(LogementDAO appartDAO) {			
-		
-		if (!(appartDAO.getListeApparts().isEmpty())) {	
-			StringBuilder resultat = new StringBuilder();
-			String option;			
-			for (int i = 0; i < appartDAO.getListeApparts().size(); i++) {			
-				option = "<option value=\"" + appartDAO.getListeApparts().get(i).getId() + 
-							"\">" + appartDAO.getListeApparts().get(i).getAdresse().toString() + 
-							"</option>";
-				resultat.append(option);
-		}
-		return resultat.toString();
-		} else {
-			return null;
-		}		
-	}
+	}	
 
 }
