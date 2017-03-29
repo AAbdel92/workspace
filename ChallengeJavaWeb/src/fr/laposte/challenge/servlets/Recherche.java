@@ -35,7 +35,7 @@ public class Recherche extends HttpServlet {
 		request.setAttribute("noLogementDisplay", hidden);
 		
 		RequestDispatcher dispatcher;
-		dispatcher = request.getRequestDispatcher("recherche.jsp");
+		dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/recherche.jsp");
 		dispatcher.forward(request, response);
 	}
 
@@ -65,7 +65,7 @@ public class Recherche extends HttpServlet {
 				request.setAttribute("logementsDisplay", hidden);
 				request.setAttribute("noLogementDisplay", show);
 			}						
-			dispatcher = request.getRequestDispatcher("recherche.jsp");
+			dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/recherche.jsp");
 		} else {
 			LogementDAO appartDAO = new LogementDAO();
 				appartDAO.ouvrirConnexion();
@@ -75,7 +75,7 @@ public class Recherche extends HttpServlet {
 			request.setAttribute("proprio", appartDAO.getAppart().getProprio());
 			request.setAttribute("display", show);
 
-			dispatcher = request.getRequestDispatcher("index.jsp");
+			dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/index.jsp");
 		}	
 		dispatcher.forward(request, response);		
 		

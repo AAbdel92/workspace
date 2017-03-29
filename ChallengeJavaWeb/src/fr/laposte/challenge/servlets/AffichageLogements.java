@@ -47,7 +47,7 @@ public class AffichageLogements extends HttpServlet {
 		
 		request.setAttribute("resultat", proprioDAO.getListeProprio());
 		RequestDispatcher dispatcher;
-		dispatcher = request.getRequestDispatcher("affichageLogements.jsp");
+		dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/affichageLogements.jsp");
 		dispatcher.forward(request, response);
 	}
 	/**
@@ -125,7 +125,7 @@ public class AffichageLogements extends HttpServlet {
 	request.setAttribute("resultat", proprioDAO.getListeProprio());
 	
 	RequestDispatcher dispatcher;	
-		dispatcher = request.getRequestDispatcher("affichageLogements.jsp");
+		dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/affichageLogements.jsp");
 		dispatcher.forward(request, response);
 	}	
 }

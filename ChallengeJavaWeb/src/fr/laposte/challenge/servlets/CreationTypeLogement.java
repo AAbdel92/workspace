@@ -51,7 +51,7 @@ public class CreationTypeLogement extends HttpServlet {
     		request.setAttribute("confirmation", "Type de logement crée !");
     		
     		RequestDispatcher dispatcher;
-    		dispatcher = request.getRequestDispatcher("typeLogement.jsp");
+    		dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/typeLogement.jsp");
     		dispatcher.forward(request, response);
 	}
 }

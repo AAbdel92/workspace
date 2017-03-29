@@ -33,7 +33,7 @@ public class SimplonAirBnB extends HttpServlet {
 		request.setAttribute("display", display);
 		RequestDispatcher dispatcher;
 		
-		dispatcher = request.getRequestDispatcher("index.jsp");
+		dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/index.jsp");
 		dispatcher.forward(request, response);
 	}
 

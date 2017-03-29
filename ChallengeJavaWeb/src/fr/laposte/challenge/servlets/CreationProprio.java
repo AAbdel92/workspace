@@ -38,7 +38,7 @@ public class CreationProprio extends HttpServlet {
 		String display = "hidden";
 		request.setAttribute("display", display);
 		RequestDispatcher dispatcher;		
-		dispatcher = request.getRequestDispatcher("creationProprio.jsp");
+		dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/creationProprio.jsp");
 		dispatcher.forward(request, response);
 	}
 	
@@ -71,7 +71,7 @@ public class CreationProprio extends HttpServlet {
 			}			
 			
 		RequestDispatcher dispatcher;
-			dispatcher = request.getRequestDispatcher("creationProprio.jsp");
+			dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/creationProprio.jsp");
 			dispatcher.forward(request, response);
 		
 		
